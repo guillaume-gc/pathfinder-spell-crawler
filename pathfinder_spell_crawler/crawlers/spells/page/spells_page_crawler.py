@@ -1,9 +1,23 @@
 import abc
 
+from bs4 import BeautifulSoup
 
-class SpellPageCrawler(abc.ABC):
+from pathfinder_spell_crawler.crawlers.crawler import Crawler
+
+
+class SpellPageCrawler(Crawler, abc.ABC):
     def __init__(self, url):
-        self.url = url
+        super().__init__(url)
+
+        self.tag = None
+
+    def get_spell_tag(self):
+        html_global_text = self._get_html_text()
+
+        soup = BeautifulSoup(html_global_text, 'html.parser')
+
+        # See test/samples/fake_page/aonprd_spell_page.html for a HTML sample.
+        return soup.find(id='main').find('table').find_all('td')
 
     @abc.abstractmethod
     def get_source(self):

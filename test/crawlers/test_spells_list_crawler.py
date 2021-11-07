@@ -9,7 +9,7 @@ class TestSpellsListCrawler:
     def aonprd_pages(self):
         return [
             {
-                "html_path": '/test/samples/fake_page/aonprd_spells_list.html',
+                "html_path": '/test/samples/fake_page/aonprd_spells_list_small.html',
                 "spell_links": [
                     'https://aonprd.com/SpellDisplay.aspx?ItemName=Abadar%27s%20Truthtelling',
                     'https://aonprd.com/SpellDisplay.aspx?ItemName=Abeyance',
@@ -28,7 +28,7 @@ class TestSpellsListCrawler:
         ]
 
     @staticmethod
-    def test_get_spell_aonprd_pages_count(mocker, aonprd_pages):
+    def test_get_spell_aonprd_pages_small_count(mocker, aonprd_pages):
         from pathfinder_spell_crawler.crawlers.spells.list.aonprd_spells_list_crawler import AonprdSpellsListCrawler
 
         url = 'https://aonprd.com/Spells.aspx?Class=All'
@@ -42,7 +42,7 @@ class TestSpellsListCrawler:
             assert len(result_set) == len(page["spell_links"])
 
     @staticmethod
-    def test_get_spell_aonprd_pages_links(mocker, aonprd_pages):
+    def test_get_spell_aonprd_pages_small_links(mocker, aonprd_pages):
         from pathfinder_spell_crawler.crawlers.spells.list.aonprd_spells_list_crawler import AonprdSpellsListCrawler
 
         url = 'https://aonprd.com/Spells.aspx?Class=All'

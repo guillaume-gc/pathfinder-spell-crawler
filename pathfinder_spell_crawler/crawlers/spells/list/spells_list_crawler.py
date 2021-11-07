@@ -1,11 +1,13 @@
 import abc
-import urllib.request
+
 from typing import List
 
+from pathfinder_spell_crawler.crawlers.crawler import Crawler
 
-class SpellsListCrawler(abc.ABC):
+
+class SpellsListCrawler(Crawler, abc.ABC):
     def __init__(self, url):
-        self.url = url
+        super().__init__(url)
 
     @abc.abstractmethod
     def get_spell_result_set(self) -> List[str]:
@@ -23,8 +25,3 @@ class SpellsListCrawler(abc.ABC):
             links.append(link)
 
         return links
-
-    def _get_html_text(self) -> str:
-        page = urllib.request.urlopen(self.url)
-
-        return page.read().decode('utf8')
