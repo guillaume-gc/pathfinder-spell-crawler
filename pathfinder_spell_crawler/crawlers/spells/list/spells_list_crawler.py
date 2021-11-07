@@ -3,6 +3,7 @@ import abc
 from typing import List
 
 from pathfinder_spell_crawler.crawlers.crawler import Crawler
+from pathfinder_spell_crawler.crawlers import logger
 
 
 class SpellsListCrawler(Crawler, abc.ABC):
@@ -18,10 +19,13 @@ class SpellsListCrawler(Crawler, abc.ABC):
         raise NotImplemented('method extract_spell_link_from_tag not implemented for SpellsListCrawler class')
 
     def extract_spell_links_from_result_set(self, result_set) -> List[str]:
+        logger.info('Extract Spell Links: Ready.')
         links = []
 
         for tag in result_set:
             link = self.extract_spell_link_from_tag(tag)
             links.append(link)
+
+        logger.info(f'Extract Spell Links: Found {len(links)} links.')
 
         return links

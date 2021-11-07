@@ -33,7 +33,7 @@ class TestSpellsListCrawler:
         for page in aonprd_pages:
             crawler = TestSpellsListCrawler.init_crawler(mocker, page)
 
-            assert crawler.tag is not None
+            assert crawler._tag is not None
 
     @staticmethod
     def test_get_spell_aonprd_page_name(mocker, aonprd_pages):

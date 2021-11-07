@@ -4,179 +4,357 @@ from typing import List
 from bs4 import BeautifulSoup
 
 from pathfinder_spell_crawler.crawlers.crawler import Crawler
+from pathfinder_spell_crawler.crawlers import logger
+from pathfinder_spell_crawler.crawlers.exceptions.spells_page_crawling_exception import SpellsPageCrawlingException
 
 
 class AonprdSpellPageCrawler(Crawler):
     def __init__(self, url):
         super().__init__(url)
 
-        self.tag = None
+        self._tag = None
 
     def get_spell_tag(self):
+        logger.info(f'Get Spell Tag: URL is "{self._url}"')
+
         html_global_text = self._get_html_text()
+        logger.info(f'Get Spell Tag: HTML extracted.')
+        logger.debug(html_global_text)
 
         soup = BeautifulSoup(html_global_text, 'html.parser')
+        logger.info(f'Get Spell Tag: HTML extracted.')
 
         # See test/samples/fake_page/aonprd_spell_page.html for a HTML sample.
-        self.tag = soup.find(id='main').find('table').tr.td.span
+        self._tag = soup.find(id='main').find('table').tr.td.span
+        logger.info(f'Get Spell Tag: Tag Created from Soup.')
+        logger.debug(self._tag)
 
     def get_name(self) -> str:
-        name = self.tag.find('h1', class_='title').text
+        logger.debug('Get Name: Ready.')
 
-        # Remove any whitespace and line break before and after the name.
-        name = name.strip()
+        if self._tag is None:
+            logger.error('Get Name: Tag is not initialized. Call get_spell_tag method.')
+            raise SpellsPageCrawlingException('tag not initialized', 'name')
 
-        return name
+        try:
+            name = self._tag.find('h1', class_='title').text
+
+            # Remove any whitespace and line break before and after the name.
+            name = name.strip()
+
+            logger.debug(f'Get Name: Value is {name}.')
+
+            return name
+        except Exception as ex:
+            logger.exception(f'Get Name: an exception occurred ({ex} -> {type(ex).__name__}).')
+            raise SpellsPageCrawlingException(f'an {ex} error occurred', 'name')
 
     def get_sources(self) -> List[str]:
-        sources = []
+        logger.debug('Get Sources: Ready.')
 
-        source_title = self.tag.find('b', text='Source')
-        source_title_next_siblings = source_title.find_next_siblings()
+        if self._tag is None:
+            logger.error('Get Sources: Tag is not initialized. Call get_spell_tag method.')
+            raise SpellsPageCrawlingException('tag not initialized', 'sources')
 
-        for sibling in source_title_next_siblings:
-            if str(sibling) == '<br/>':
-                break
-            if sibling.name == 'a':
-                source = sibling.text
-                source = source.strip()
-                sources.append(source)
+        try:
+            sources = []
 
-        return sources
+            source_title = self._tag.find('b', text='Source')
+            source_title_next_siblings = source_title.find_next_siblings()
+
+            for sibling in source_title_next_siblings:
+                if str(sibling) == '<br/>':
+                    break
+                if sibling.name == 'a':
+                    source = sibling.text
+                    source = source.strip()
+                    sources.append(source)
+
+            logger.debug(f'Get Sources: Values are {sources}.')
+
+            return sources
+        except Exception as ex:
+            logger.exception(f'Get Sources: an exception occurred ({ex} -> {type(ex).__name__}).')
+            raise SpellsPageCrawlingException(f'an {ex} error occurred', 'sources')
 
     def get_school(self):
-        school_title = self.tag.find('b', text='School')
-        siblings = school_title.find_next_siblings()
+        logger.debug('Get School: Ready.')
 
-        # Normally there is always at least one sibling: the main school.
-        school = siblings[0].find('a').text
-        school = school.strip().capitalize()
+        if self._tag is None:
+            logger.error('Get Sources: Tag is not initialized. Call get_spell_tag method.')
+            raise SpellsPageCrawlingException('tag not initialized', 'school')
 
-        return school
+        try:
+            school_title = self._tag.find('b', text='School')
+            siblings = school_title.find_next_siblings()
+
+            # Normally there is always at least one sibling: the main school.
+            school = siblings[0].find('a').text
+            school = school.strip().capitalize()
+
+            logger.debug(f'Get School: Value is {school}.')
+
+            return school
+        except Exception as ex:
+            logger.exception(f'Get School: an exception occurred ({ex} -> {type(ex).__name__}).')
+            raise SpellsPageCrawlingException(f'an {ex} error occurred', 'school')
 
     def get_sub_school(self):
-        school_title = self.tag.find('b', text='School')
-        siblings = school_title.find_next_siblings()
+        logger.debug('Get Sub School: Ready.')
 
-        # Sub school is optional.
+        if self._tag is None:
+            logger.error('Get Sub School: Tag is not initialized. Call get_spell_tag method.')
+            raise SpellsPageCrawlingException('tag not initialized', 'sub_school')
+
         try:
-            sub_school = siblings[1].find('a').text
-            sub_school = sub_school.strip().capitalize()
-        except IndexError:
-            sub_school = ''
+            # Sub School is part of school and is optional.
+            school_title = self._tag.find('b', text='School')
+            siblings = school_title.find_next_siblings()
+            try:
+                sub_school = siblings[1].find('a').text
+                sub_school = sub_school.strip().capitalize()
+            except IndexError:
+                logger.debug(f'Get Sub School: Value not found but is optional. Set it to empty')
+                sub_school = ''
 
-        return sub_school
+            logger.debug(f'Get Sub School: Value is {sub_school}.')
+
+            return sub_school
+        except Exception as ex:
+            logger.exception(f'Get Sub School: an exception occurred ({ex} -> {type(ex).__name__}).')
+            raise SpellsPageCrawlingException(f'an {ex} error occurred', 'sub_school')
 
     def get_descriptor(self):
-        school_title = self.tag.find('b', text='School')
-        siblings = school_title.find_next_siblings()
+        logger.debug('Get Descriptor: Ready.')
 
-        # Descriptor is optional.
+        if self._tag is None:
+            logger.error('Get Descriptor: Tag is not initialized. Call get_spell_tag method.')
+            raise SpellsPageCrawlingException('tag not initialized', 'descriptor')
+
         try:
-            descriptor = siblings[2].find('a').text
-            descriptor = descriptor.strip().capitalize()
-        except IndexError:
-            descriptor = ''
+            # Descriptor part of school and is optional.
+            school_title = self._tag.find('b', text='School')
+            siblings = school_title.find_next_siblings()
 
-        return descriptor
+            try:
+                descriptor = siblings[2].find('a').text
+                descriptor = descriptor.strip().capitalize()
+            except IndexError:
+                logger.debug(f'Get Descriptor: Value not found but is optional. Set it to empty')
+                descriptor = ''
+
+            logger.debug(f'Get Descriptor: Value is {descriptor}.')
+
+            return descriptor
+        except Exception as ex:
+            logger.exception(f'Get Descriptor: an exception occurred ({ex} -> {type(ex).__name__}).')
+            raise SpellsPageCrawlingException(f'an {ex} error occurred', 'descriptor')
 
     def get_levels(self):
-        levels_title = self.tag.find('b', text='Level')
+        logger.debug('Get Levels: Ready.')
 
-        # By default, BeautifulSoup only works with named elements (such as <a>), not simple text.
-        # This can be changed using string argument, with a regex containing all possible strings.
-        siblings = levels_title.find_next_siblings(string=re.compile("."))
+        if self._tag is None:
+            logger.error('Get Levels: Tag is not initialized. Call get_spell_tag method.')
+            raise SpellsPageCrawlingException('tag not initialized', 'levels')
 
-        levels_string = siblings[0]
+        try:
+            levels_title = self._tag.find('b', text='Level')
 
-        levels = levels_string.split(',')
-        levels = [level.strip().capitalize() for level in levels]
+            # By default, BeautifulSoup only works with named elements (such as <a>), not simple text.
+            # This can be changed using string argument, with a regex containing all possible strings.
+            siblings = levels_title.find_next_siblings(string=re.compile("."))
 
-        return levels
+            levels_string = siblings[0]
+
+            levels = levels_string.split(',')
+            levels = [level.strip().capitalize() for level in levels]
+
+            logger.debug(f'Get Levels: Values are {levels}.')
+
+            return levels
+        except Exception as ex:
+            logger.exception(f'Get Levels: an exception occurred ({ex} -> {type(ex).__name__}).')
+            raise SpellsPageCrawlingException(f'an {ex} error occurred', 'levels')
 
     def get_casting_time(self):
-        casting_time_title = self.tag.find('b', text='Casting Time')
+        logger.debug('Get Casting Time: Ready.')
 
-        siblings = casting_time_title.find_next_siblings(string=re.compile("."))
+        if self._tag is None:
+            logger.error('Get Casting Time: Tag is not initialized. Call get_spell_tag method.')
+            raise SpellsPageCrawlingException('tag not initialized', 'casting_time')
 
-        casting_time = siblings[0]
-        casting_time = casting_time.strip().capitalize()
+        try:
+            casting_time_title = self._tag.find('b', text='Casting Time')
 
-        return casting_time
+            siblings = casting_time_title.find_next_siblings(string=re.compile("."))
+
+            casting_time = siblings[0]
+            casting_time = casting_time.strip().capitalize()
+
+            logger.debug(f'Get Casting Time: Value is {casting_time}.')
+
+            return casting_time
+        except Exception as ex:
+            logger.exception(f'Get Casting Time: an exception occurred ({ex} -> {type(ex).__name__}).')
+            raise SpellsPageCrawlingException(f'an {ex} error occurred', 'casting_time')
 
     def get_components(self):
-        components_title = self.tag.find('b', text='Components')
+        logger.debug('Get Components: Ready.')
 
-        siblings = components_title.find_next_siblings(string=re.compile("."))
+        if self._tag is None:
+            logger.error('Get Components: Tag is not initialized. Call get_spell_tag method.')
+            raise SpellsPageCrawlingException('tag not initialized', 'components')
 
-        components_string = siblings[0]
+        try:
+            components_title = self._tag.find('b', text='Components')
 
-        components = components_string.split(',')
-        components = [component.strip().upper() for component in components]
+            siblings = components_title.find_next_siblings(string=re.compile("."))
 
-        return components
+            components_string = siblings[0]
+
+            components = components_string.split(',')
+            components = [component.strip().upper() for component in components]
+
+            logger.debug(f'Get Components: Values are {components}.')
+
+            return components
+        except Exception as ex:
+            logger.exception(f'Get Components: an exception occurred ({ex} -> {type(ex).__name__}).')
+            raise SpellsPageCrawlingException(f'an {ex} error occurred', 'casting_time')
 
     def get_casting_range(self):
-        range_time_title = self.tag.find('b', text='Range')
+        logger.debug('Get Casting Range: Ready.')
 
-        siblings = range_time_title.find_next_siblings(string=re.compile("."))
+        if self._tag is None:
+            logger.error('Get Casting Range: Tag is not initialized. Call get_spell_tag method.')
+            raise SpellsPageCrawlingException('tag not initialized', 'casting_range')
 
-        range_time = siblings[0]
-        range_time = range_time.strip().capitalize()
+        try:
+            casting_range_title = self._tag.find('b', text='Range')
 
-        return range_time
+            siblings = casting_range_title.find_next_siblings(string=re.compile("."))
+
+            casting_range = siblings[0]
+            casting_range = casting_range.strip().capitalize()
+
+            logger.debug(f'Get Casting Range: Value is {casting_range}.')
+
+            return casting_range
+        except Exception as ex:
+            logger.exception(f'Get Casting Range: an exception occurred ({ex} -> {type(ex).__name__}).')
+            raise SpellsPageCrawlingException(f'an {ex} error occurred', 'casting_range')
 
     def get_target(self):
-        target_title = self.tag.find('b', text='Target')
+        logger.debug('Get Target: Ready.')
 
-        siblings = target_title.find_next_siblings(string=re.compile("."))
+        if self._tag is None:
+            logger.error('Get Target: Tag is not initialized. Call get_spell_tag method.')
+            raise SpellsPageCrawlingException('tag not initialized', 'target')
 
-        target = siblings[0]
-        target = target.strip().capitalize()
+        try:
+            target_title = self._tag.find('b', text='Target')
 
-        return target
+            siblings = target_title.find_next_siblings(string=re.compile("."))
+
+            target = siblings[0]
+            target = target.strip().capitalize()
+
+            logger.debug(f'Get Target: Value is {target}.')
+
+            return target
+        except Exception as ex:
+            logger.exception(f'Get Target: an exception occurred ({ex} -> {type(ex).__name__}).')
+            raise SpellsPageCrawlingException(f'an {ex} error occurred', 'target')
 
     def get_duration(self):
-        duration_title = self.tag.find('b', text='Duration')
+        logger.debug('Get Duration: Ready.')
 
-        siblings = duration_title.find_next_siblings(string=re.compile("."))
+        if self._tag is None:
+            logger.error('Get Duration: Tag is not initialized. Call get_spell_tag method.')
+            raise SpellsPageCrawlingException('tag not initialized', 'duration')
 
-        duration = siblings[0]
-        duration = duration.strip().capitalize()
+        try:
+            duration_title = self._tag.find('b', text='Duration')
 
-        return duration
+            siblings = duration_title.find_next_siblings(string=re.compile("."))
+
+            duration = siblings[0]
+            duration = duration.strip().capitalize()
+
+            logger.debug(f'Get Duration: Value is {duration}.')
+
+            return duration
+        except Exception as ex:
+            logger.exception(f'Get Duration: an exception occurred ({ex} -> {type(ex).__name__}).')
+            raise SpellsPageCrawlingException(f'an {ex} error occurred', 'duration')
 
     def get_save(self):
-        save_title = self.tag.find('b', text='Saving Throw')
+        logger.debug('Get Save: Ready.')
 
-        siblings = save_title.find_next_siblings(string=re.compile("."))
+        if self._tag is None:
+            logger.error('Get Save: Tag is not initialized. Call get_spell_tag method.')
+            raise SpellsPageCrawlingException('tag not initialized', 'save')
 
-        save = siblings[0]
-        save = save.strip().capitalize().replace(';', '')
+        try:
+            save_title = self._tag.find('b', text='Saving Throw')
 
-        return save
+            siblings = save_title.find_next_siblings(string=re.compile("."))
+
+            save = siblings[0]
+            save = save.strip().capitalize().replace(';', '')
+
+            logger.debug(f'Get Save: Value is {save}.')
+
+            return save
+        except Exception as ex:
+            logger.exception(f'Get Save: an exception occurred ({ex} -> {type(ex).__name__}).')
+            raise SpellsPageCrawlingException(f'an {ex} error occurred', 'save')
 
     def get_spell_resistance(self):
-        spell_resistance_title = self.tag.find('b', text='Spell Resistance')
+        logger.debug('Get Spell Resistance: Ready.')
 
-        siblings = spell_resistance_title.find_next_siblings(string=re.compile("."))
+        if self._tag is None:
+            logger.error('Get Spell Resistance: Tag is not initialized. Call get_spell_tag method.')
+            raise SpellsPageCrawlingException('tag not initialized', 'spell_resistance')
 
-        spell_resistance = siblings[0]
-        spell_resistance = spell_resistance.strip().capitalize()
+        try:
+            spell_resistance_title = self._tag.find('b', text='Spell Resistance')
 
-        return spell_resistance
+            siblings = spell_resistance_title.find_next_siblings(string=re.compile("."))
+
+            spell_resistance = siblings[0]
+            spell_resistance = spell_resistance.strip().capitalize()
+
+            logger.debug(f'Get Spell Resistance: Value is {spell_resistance}.')
+
+            return spell_resistance
+        except Exception as ex:
+            logger.exception(f'Get Save: an exception occurred ({ex} -> {type(ex).__name__}).')
+            raise SpellsPageCrawlingException(f'an {ex} error occurred', 'spell_resistance')
 
     def get_description(self):
-        description_title = self.tag.find('h3', class_='framing', text='Description')
+        logger.debug('Get Description: Ready.')
 
-        # Descriptions are made with sub elements, line breaks and so on and so forth, so there are multiple texts.
-        sibling = description_title.next_sibling
-        description_list = []
-        while sibling:
-            description_list.append(sibling.text)
-            sibling = sibling.next_sibling
+        if self._tag is None:
+            logger.error('Get Description: Tag is not initialized. Call get_spell_tag method.')
+            raise SpellsPageCrawlingException('tag not initialized', 'description')
 
-        description = ''.join(description_list)
-        description = description.strip()
+        try:
+            description_title = self._tag.find('h3', class_='framing', text='Description')
 
-        return description
+            # Descriptions are made with sub elements, line breaks and so on and so forth, so there are multiple texts.
+            sibling = description_title.next_sibling
+            description_list = []
+            while sibling:
+                description_list.append(sibling.text)
+                sibling = sibling.next_sibling
+
+            description = ''.join(description_list)
+            description = description.strip()
+
+            logger.debug(f'Get Description: Value is "{description}".')
+
+            return description
+        except Exception as ex:
+            logger.exception(f'Get Description: an exception occurred ({ex} -> {type(ex).__name__}).')
+            raise SpellsPageCrawlingException(f'an {ex} error occurred', 'description')
