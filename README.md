@@ -1,1 +1,1 @@
-PathfinderSpellCrawler
+pathfinder-spell-crawler
