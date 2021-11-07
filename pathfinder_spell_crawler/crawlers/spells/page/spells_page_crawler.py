@@ -1,7 +1,5 @@
 import abc
 
-from bs4 import BeautifulSoup
-
 from pathfinder_spell_crawler.crawlers.crawler import Crawler
 
 
@@ -11,13 +9,13 @@ class SpellPageCrawler(Crawler, abc.ABC):
 
         self.tag = None
 
+    @abc.abstractmethod
     def get_spell_tag(self):
-        html_global_text = self._get_html_text()
+        raise NotImplemented('method get_spell_tag not implemented for SpellPageCrawler class')
 
-        soup = BeautifulSoup(html_global_text, 'html.parser')
-
-        # See test/samples/fake_page/aonprd_spell_page.html for a HTML sample.
-        return soup.find(id='main').find('table').find_all('td')
+    @abc.abstractmethod
+    def get_name(self):
+        raise NotImplemented('method get_name not implemented for SpellPageCrawler class')
 
     @abc.abstractmethod
     def get_source(self):

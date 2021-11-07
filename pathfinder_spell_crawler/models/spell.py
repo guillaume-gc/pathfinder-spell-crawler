@@ -6,6 +6,7 @@ class Spell:
         if not data:
             data = {}
 
+        self.name = data.get('name')
         self.source = data.get('source')
 
         self.school = data.get('school')

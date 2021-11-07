@@ -5,7 +5,7 @@ from mocking.mock_urllib import mock_urllib_request_response_wrapper
 
 
 class TestSpellsListCrawler:
-    @pytest.fixture()
+    @pytest.fixture(scope="class")
     def aonprd_pages(self):
         return [
             {
