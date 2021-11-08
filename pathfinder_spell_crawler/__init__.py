@@ -1,8 +1,8 @@
 import logging.config
 import logging
 
-from definitions import ROOT_DIR
+from definitions import LOG_DICT
 
 logger = logging.getLogger('root')
 
-logging.config.fileConfig(f'{ROOT_DIR}/pathfinder_spell_crawler/logging.conf')
+logging.config.dictConfig(LOG_DICT)
