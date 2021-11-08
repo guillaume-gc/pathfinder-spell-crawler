@@ -1,3 +1,5 @@
+from typing import Tuple
+
 from bs4 import BeautifulSoup
 
 from pathfinder_spell_crawler.crawlers.spells.list import logger
@@ -25,14 +27,17 @@ class AonprdSpellsListCrawler(SpellsListCrawler):
 
         return result_set
 
-    def extract_spell_link_from_tag(self, tag) -> str:
-        logger.debug(f'Extract Spell Link from Tag: Ready.')
+    def extract_spell_data_from_tag(self, tag) -> Tuple[str, str]:
+        logger.debug(f'Extract Spell Data from Tag: Ready.')
         logger.debug(tag)
 
         href = tag.span.b.a['href']
-        logger.debug(f'Extract Spell Link from Tag: HRef is "{href}"')
+        logger.debug(f'Extract Spell Data from Tag: HRef is "{href}"')
 
-        link = self._create_link_from_relative_path(href)
-        logger.debug(f'Extract Spell Link from Tag: Link is "{link}"')
+        url = self._create_url_from_relative_path(href)
+        logger.debug(f'Extract Spell Data from Tag: Complete URL is "{url}"')
 
-        return link
+        name = tag.b.text.strip()
+        logger.debug(f'Extract Spell Data from Tag: Name is "{name}"')
+
+        return name, url

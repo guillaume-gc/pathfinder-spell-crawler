@@ -1,3 +1,4 @@
+import ssl
 import urllib.request
 import urllib.parse
 
@@ -10,9 +11,9 @@ class Crawler:
         self._domain = url_tools.get_domain(url)
 
     def _get_html_text(self) -> str:
-        page = urllib.request.urlopen(self._url)
+        page = urllib.request.urlopen(self._url, context=ssl.SSLContext())
 
         return page.read().decode('utf8')
 
-    def _create_link_from_relative_path(self, relative_path: str):
+    def _create_url_from_relative_path(self, relative_path: str):
         return self._domain + urllib.parse.quote(relative_path, safe='?=()')

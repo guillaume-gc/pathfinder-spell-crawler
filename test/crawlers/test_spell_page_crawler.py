@@ -10,9 +10,24 @@ class TestSpellsPageCrawler:
     def aonprd_pages(self):
         return [
             {
-                "html_path": '/test/samples/fake_page/aonprd_spell_page.html',
+                "html_path": '/test/samples/fake_page/aonprd_spell_page_abadar_truthtelling.html',
                 "url": 'https://aonprd.com/SpellDisplay.aspx?ItemName=Abadar%27s%20Truthtelling',
                 "spell": get_spell_data('abadar_truthtelling')
+            },
+            {
+                "html_path": '/test/samples/fake_page/aonprd_spell_page_abeyance.html',
+                "url": 'https://aonprd.com/SpellDisplay.aspx?ItemName=Abeyance',
+                "spell": get_spell_data('abeyance')
+            },
+            {
+                "html_path": '/test/samples/fake_page/aonprd_spell_page_abjuring_step.html',
+                "url": 'https://aonprd.com/SpellDisplay.aspx?ItemName=Abjuring%20Step',
+                "spell": get_spell_data('abjuring_step')
+            },
+            {
+                "html_path": '/test/samples/fake_page/aonprd_spell_page_absorb_rune_2.html',
+                "url": 'https://aonprd.com/SpellDisplay.aspx?ItemName=Absorb%20Rune%20II',
+                "spell": get_spell_data('absorb_rune_2')
             }
         ]
 
@@ -22,9 +37,9 @@ class TestSpellsPageCrawler:
 
         mocker.patch('urllib.request', mock_urllib_request_response_wrapper(page["html_path"]))
 
-        crawler = AonprdSpellPageCrawler(page["url"])
+        crawler = AonprdSpellPageCrawler(page["spell"]["name"], page["url"])
 
-        crawler.get_spell_tag()
+        crawler.update_spell_tag()
 
         return crawler
 

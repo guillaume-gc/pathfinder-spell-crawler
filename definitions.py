@@ -10,7 +10,6 @@ LOG_DICT = {
     },
     "handlers": {
         "console": {
-            "level": 'INFO',
             "formatter": 'standard',
             "class": 'logging.StreamHandler'
         }
@@ -19,7 +18,7 @@ LOG_DICT = {
         "": {
             "handlers": ['console'],
             "level": 'INFO',
-            "propagate": True
+            "propagate": False
         },
         "app": {
             "handlers": ['console'],
@@ -31,6 +30,11 @@ LOG_DICT = {
             "level": 'INFO',
             "propagate": False
         },
+        "crawlers.controller": {
+            "handlers": ['console'],
+            "level": 'INFO',
+            "propagate": False
+        },
         "crawlers.spells.list": {
             "handlers": ['console'],
             "level": 'INFO',
@@ -38,9 +42,68 @@ LOG_DICT = {
         },
         "crawlers.spells.page": {
             "handlers": ['console'],
-            "level": 'WARNING',
+            "level": 'DEBUG',
             "propagate": False
         }
     }
 }
-
+WHITELIST = {
+    "descriptors": [
+        'acid',
+        'air',
+        'chaotic',
+        'cold',
+        'cursed',
+        'darkness',
+        'death',
+        'disease',
+        'draconic',
+        'earth',
+        'electricity',
+        'emotion',
+        'evil',
+        'fear',
+        'fire',
+        'force',
+        'good',
+        'language-dependent',
+        'lawful',
+        'light',
+        'meditative',
+        'mind-affecting',
+        'pain',
+        'poison',
+        'ruse',
+        'shadow',
+        'sonic',
+        'water'
+    ],
+    "sub_schools": [
+        'calling',
+        'charm',
+        'compulsion',
+        'creation',
+        'figment',
+        'glamer',
+        'haunted',
+        'healing',
+        'pattern',
+        'phantasm',
+        'polymorph',
+        'scrying',
+        'shadow',
+        'summoning',
+        'teleportation'
+    ],
+    'schools': [
+        'abjuration',
+        'conjuration',
+        'divination',
+        'enchantment',
+        'evocation',
+        'illusion',
+        'necromancy',
+        'transmutation',
+        'universal'
+    ]
+}

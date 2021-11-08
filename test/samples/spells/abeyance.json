@@ -1,0 +1,29 @@
+{
+    "name": "Abeyance",
+    "sources": [
+        "Pathfinder #82: Secrets of the Sphinx pg. 74"
+    ],
+    "school": "Abjuration",
+    "sub_school": "",
+    "descriptor": "",
+    "casting_time": "1 minute",
+    "levels": [
+        "Cleric 2",
+        "Inquisitor 2",
+        "Oracle 2",
+        "Paladin 2",
+        "Warpriest 2"
+    ],
+    "components": [
+        "V",
+        "S",
+        "M (a flask of holy water worth 25 gp)",
+        "DF"
+    ],
+    "casting_range": "Touch",
+    "target": "Creature touched",
+    "duration": "24 hours",
+    "save": "Will negates (harmless)",
+    "spell_resistance": "Yes (harmless)",
+    "description": "Abeyance suppresses the effects of a single curse on a creature. It does not restore any damage or drain that might have been caused by the curse. Abeyance cannot suppress curses that cannot be removed by remove curse, but it can suppress curses such as lycanthropy that require remove curse along with additional measures. An individual curse can be suppressed only once by abeyance, even if cast by a different caster.\n\nAbeyance does not allow a creature to divest itself of cursed objects, though it can suppress a curse contracted from an object."
+}

@@ -1,5 +1,4 @@
 import pytest
-from deepdiff import DeepDiff
 
 from mocking.mock_urllib import mock_urllib_request_response_wrapper
 
@@ -10,7 +9,8 @@ class TestSpellsListCrawler:
         return [
             {
                 "html_path": '/test/samples/fake_page/aonprd_spells_list_small.html',
-                "spell_url": [
+                "url": 'https://aonprd.com/Spells.aspx?Class=All',
+                "spell_urls": [
                     'https://aonprd.com/SpellDisplay.aspx?ItemName=Abadar%27s%20Truthtelling',
                     'https://aonprd.com/SpellDisplay.aspx?ItemName=Abeyance',
                     'https://aonprd.com/SpellDisplay.aspx?ItemName=Abjuring%20Step',
@@ -28,32 +28,13 @@ class TestSpellsListCrawler:
         ]
 
     @staticmethod
-    def test_get_spell_aonprd_pages_small_count(mocker, aonprd_pages):
-        from pathfinder_spell_crawler.crawlers.spells.list.aonprd_spells_list_crawler import AonprdSpellsListCrawler
-
-        url = 'https://aonprd.com/Spells.aspx?Class=All'
+    def test_aonprd_crawler_create_all_page_crawlers_small_count(mocker, aonprd_pages):
+        from pathfinder_spell_crawler.crawlers.controller.aonprd_crawler_controller import AonprdCrawlerController
 
         for page in aonprd_pages:
             mocker.patch('urllib.request', mock_urllib_request_response_wrapper(page["html_path"]))
 
-            crawler = AonprdSpellsListCrawler(url)
-            result_set = crawler.get_spell_result_set()
+            crawler = AonprdCrawlerController(page["url"])
+            spells_page_crawlers = crawler.create_all_page_crawlers()
 
-            assert len(result_set) == len(page["spell_url"])
-
-    @staticmethod
-    def test_get_spell_aonprd_pages_small_links(mocker, aonprd_pages):
-        from pathfinder_spell_crawler.crawlers.spells.list.aonprd_spells_list_crawler import AonprdSpellsListCrawler
-
-        url = 'https://aonprd.com/Spells.aspx?Class=All'
-
-        for page in aonprd_pages:
-            mocker.patch('urllib.request', mock_urllib_request_response_wrapper(page["html_path"]))
-
-            crawler = AonprdSpellsListCrawler(url)
-            result_set = crawler.get_spell_result_set()
-
-            data = crawler.extract_spell_data_from_result_set(result_set)
-
-            for e in data:
-                assert e["url"] in page["spell_url"]
+            assert len(spells_page_crawlers) == len(page["spell_urls"])
