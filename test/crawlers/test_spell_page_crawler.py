@@ -5,7 +5,7 @@ from mocking.mock_urllib import mock_urllib_request_response_wrapper
 from utils.spell import get_spell_data
 
 
-class TestSpellsListCrawler:
+class TestSpellsPageCrawler:
     @pytest.fixture(scope="class")
     def aonprd_pages(self):
         return [
@@ -31,14 +31,14 @@ class TestSpellsListCrawler:
     @staticmethod
     def test_get_spell_aonprd_page_tag(mocker, aonprd_pages):
         for page in aonprd_pages:
-            crawler = TestSpellsListCrawler.init_crawler(mocker, page)
+            crawler = TestSpellsPageCrawler.init_crawler(mocker, page)
 
             assert crawler._tag is not None
 
     @staticmethod
     def test_get_spell_aonprd_page_name(mocker, aonprd_pages):
         for page in aonprd_pages:
-            crawler = TestSpellsListCrawler.init_crawler(mocker, page)
+            crawler = TestSpellsPageCrawler.init_crawler(mocker, page)
 
             name = crawler.get_name()
             assert name == page["spell"]["name"]
@@ -46,7 +46,7 @@ class TestSpellsListCrawler:
     @staticmethod
     def test_get_spell_aonprd_page_sources(mocker, aonprd_pages):
         for page in aonprd_pages:
-            crawler = TestSpellsListCrawler.init_crawler(mocker, page)
+            crawler = TestSpellsPageCrawler.init_crawler(mocker, page)
 
             sources = crawler.get_sources()
             assert not DeepDiff(sources, page["spell"]["sources"], ignore_order=True)
@@ -54,7 +54,7 @@ class TestSpellsListCrawler:
     @staticmethod
     def test_get_spell_aonprd_page_school(mocker, aonprd_pages):
         for page in aonprd_pages:
-            crawler = TestSpellsListCrawler.init_crawler(mocker, page)
+            crawler = TestSpellsPageCrawler.init_crawler(mocker, page)
 
             school = crawler.get_school()
             assert school == page["spell"]["school"]
@@ -62,7 +62,7 @@ class TestSpellsListCrawler:
     @staticmethod
     def test_get_spell_aonprd_page_sub_school(mocker, aonprd_pages):
         for page in aonprd_pages:
-            crawler = TestSpellsListCrawler.init_crawler(mocker, page)
+            crawler = TestSpellsPageCrawler.init_crawler(mocker, page)
 
             sub_school = crawler.get_sub_school()
             assert sub_school == page["spell"]["sub_school"]
@@ -70,7 +70,7 @@ class TestSpellsListCrawler:
     @staticmethod
     def test_get_spell_aonprd_page_descriptor(mocker, aonprd_pages):
         for page in aonprd_pages:
-            crawler = TestSpellsListCrawler.init_crawler(mocker, page)
+            crawler = TestSpellsPageCrawler.init_crawler(mocker, page)
 
             descriptor = crawler.get_descriptor()
             assert descriptor == page["spell"]["descriptor"]
@@ -78,7 +78,7 @@ class TestSpellsListCrawler:
     @staticmethod
     def test_get_spell_aonprd_page_casting_time(mocker, aonprd_pages):
         for page in aonprd_pages:
-            crawler = TestSpellsListCrawler.init_crawler(mocker, page)
+            crawler = TestSpellsPageCrawler.init_crawler(mocker, page)
 
             casting_time = crawler.get_casting_time()
             assert casting_time == page["spell"]["casting_time"]
@@ -86,7 +86,7 @@ class TestSpellsListCrawler:
     @staticmethod
     def test_get_spell_aonprd_page_levels(mocker, aonprd_pages):
         for page in aonprd_pages:
-            crawler = TestSpellsListCrawler.init_crawler(mocker, page)
+            crawler = TestSpellsPageCrawler.init_crawler(mocker, page)
 
             levels = crawler.get_levels()
             assert not DeepDiff(levels, page["spell"]["levels"], ignore_order=True)
@@ -94,7 +94,7 @@ class TestSpellsListCrawler:
     @staticmethod
     def test_get_spell_aonprd_page_components(mocker, aonprd_pages):
         for page in aonprd_pages:
-            crawler = TestSpellsListCrawler.init_crawler(mocker, page)
+            crawler = TestSpellsPageCrawler.init_crawler(mocker, page)
 
             components = crawler.get_components()
             assert not DeepDiff(components, page["spell"]["components"], ignore_order=True)
@@ -102,7 +102,7 @@ class TestSpellsListCrawler:
     @staticmethod
     def test_get_spell_aonprd_page_casting_range(mocker, aonprd_pages):
         for page in aonprd_pages:
-            crawler = TestSpellsListCrawler.init_crawler(mocker, page)
+            crawler = TestSpellsPageCrawler.init_crawler(mocker, page)
 
             casting_range = crawler.get_casting_range()
             assert casting_range == page["spell"]["casting_range"]
@@ -110,7 +110,7 @@ class TestSpellsListCrawler:
     @staticmethod
     def test_get_spell_aonprd_page_target(mocker, aonprd_pages):
         for page in aonprd_pages:
-            crawler = TestSpellsListCrawler.init_crawler(mocker, page)
+            crawler = TestSpellsPageCrawler.init_crawler(mocker, page)
 
             target = crawler.get_target()
             assert target == page["spell"]["target"]
@@ -118,7 +118,7 @@ class TestSpellsListCrawler:
     @staticmethod
     def test_get_spell_aonprd_page_duration(mocker, aonprd_pages):
         for page in aonprd_pages:
-            crawler = TestSpellsListCrawler.init_crawler(mocker, page)
+            crawler = TestSpellsPageCrawler.init_crawler(mocker, page)
 
             duration = crawler.get_duration()
             assert duration == page["spell"]["duration"]
@@ -126,7 +126,7 @@ class TestSpellsListCrawler:
     @staticmethod
     def test_get_spell_aonprd_page_save(mocker, aonprd_pages):
         for page in aonprd_pages:
-            crawler = TestSpellsListCrawler.init_crawler(mocker, page)
+            crawler = TestSpellsPageCrawler.init_crawler(mocker, page)
 
             save = crawler.get_save()
             assert save == page["spell"]["save"]
@@ -134,7 +134,7 @@ class TestSpellsListCrawler:
     @staticmethod
     def test_get_spell_aonprd_page_spell_resistance(mocker, aonprd_pages):
         for page in aonprd_pages:
-            crawler = TestSpellsListCrawler.init_crawler(mocker, page)
+            crawler = TestSpellsPageCrawler.init_crawler(mocker, page)
 
             spell_resistance = crawler.get_spell_resistance()
             assert spell_resistance == page["spell"]["spell_resistance"]
@@ -142,7 +142,7 @@ class TestSpellsListCrawler:
     @staticmethod
     def test_get_spell_aonprd_page_description(mocker, aonprd_pages):
         for page in aonprd_pages:
-            crawler = TestSpellsListCrawler.init_crawler(mocker, page)
+            crawler = TestSpellsPageCrawler.init_crawler(mocker, page)
 
             description = crawler.get_description()
             assert description == page["spell"]["description"]

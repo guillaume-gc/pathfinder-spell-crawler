@@ -1,6 +1,6 @@
 from bs4 import BeautifulSoup
 
-from pathfinder_spell_crawler.crawlers import logger
+from pathfinder_spell_crawler.crawlers.spells.list import logger
 from pathfinder_spell_crawler.crawlers.spells.list.spells_list_crawler import SpellsListCrawler
 
 

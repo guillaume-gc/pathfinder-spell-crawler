@@ -30,6 +30,16 @@ LOG_DICT = {
             "handlers": ['console'],
             "level": 'INFO',
             "propagate": False
+        },
+        "crawlers.spells.list": {
+            "handlers": ['console'],
+            "level": 'INFO',
+            "propagate": False
+        },
+        "crawlers.spells.page": {
+            "handlers": ['console'],
+            "level": 'WARNING',
+            "propagate": False
         }
     }
 }
