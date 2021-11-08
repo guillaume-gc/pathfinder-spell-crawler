@@ -42,7 +42,12 @@ LOG_DICT = {
         },
         "crawlers.spells.page": {
             "handlers": ['console'],
-            "level": 'DEBUG',
+            "level": 'INFO',
+            "propagate": False
+        },
+        "soup": {
+            "handlers": ['console'],
+            "level": 'INFO',
             "propagate": False
         }
     }

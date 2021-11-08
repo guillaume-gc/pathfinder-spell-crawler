@@ -7,6 +7,7 @@ from definitions import WHITELIST
 from pathfinder_spell_crawler.crawlers.crawler import Crawler
 from pathfinder_spell_crawler.crawlers.exceptions.spells_page_crawling_exception import SpellsPageCrawlingException
 from pathfinder_spell_crawler.crawlers.spells.page import logger
+from pathfinder_spell_crawler.soup.spell_tags import SpellTags
 
 
 class AonprdSpellPageCrawler(Crawler):
@@ -31,17 +32,17 @@ class AonprdSpellPageCrawler(Crawler):
         # See test/samples/fake_page/aonprd_spell_page_abadar_truthtelling.html for a HTML sample.
         td_result_set = soup.find(id='main').find('table').find_all('td')
 
-        logger.info(f'Update {self._spell_name} Spell Tag: {len(td_result_set)} spells found.')
+        logger.info(f'Update {self._spell_name} Spell Tag: {len(td_result_set)} field found.')
 
         for tag in td_result_set:
             try:
-                current_spell_name = tag.span.h1.text.strip()
+                # For some reasons, there can be multiple spells inside a single TD element...
+                # A solution is to create custom tags, which can only contain one spell.
+                spell_soup = SpellTags(soup, tag.span, self._spell_name)
+                self._tag = spell_soup.create_spell_tag()
 
-                logger.debug(f'Update {self._spell_name} Spell Tag: "{current_spell_name}" spell found.')
-
-                if current_spell_name == self._spell_name:
-                    logger.info(f'Update {self._spell_name} Spell Tag: Found correct spell.')
-                    self._tag = tag
+                # If spell's tag found, break.
+                if self._tag is not None:
                     break
             # If an error related to a missing HTML field happens, ignore it.
             except AttributeError as ex:
