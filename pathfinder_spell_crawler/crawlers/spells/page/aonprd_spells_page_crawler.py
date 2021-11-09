@@ -214,9 +214,8 @@ class AonprdSpellPageCrawler(Crawler):
             if e in WHITELIST['descriptors']:
                 descriptor = e.capitalize().strip()
                 descriptors.append(descriptor)
-
             # Check other possible fields values to see if it's an unknown value
-            if e not in WHITELIST['sub_schools'] and text not in WHITELIST['schools']:
+            elif e not in WHITELIST['sub_schools'] and text not in WHITELIST['schools']:
                 logger.warning(f'{self._spell_name} Get Descriptors: Unknown value found, is "{text}".')
 
         return descriptors
