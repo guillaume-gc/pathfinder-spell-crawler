@@ -7,7 +7,7 @@ from definitions import WHITELIST
 from pathfinder_spell_crawler.crawlers.crawler import Crawler
 from pathfinder_spell_crawler.crawlers.exceptions.spells_page_crawling_exception import SpellsPageCrawlingException
 from pathfinder_spell_crawler.crawlers.spells.page import logger
-from pathfinder_spell_crawler.soup.spell_tags import SpellTags
+from pathfinder_spell_crawler.soup.spell_tags import AonPrdSpellTags
 
 
 class AonprdSpellPageCrawler(Crawler):
@@ -38,7 +38,7 @@ class AonprdSpellPageCrawler(Crawler):
             try:
                 # For some reasons, there can be multiple spells inside a single TD element...
                 # A solution is to create custom tags, which can only contain one spell.
-                spell_soup = SpellTags(soup, tag.span, self._spell_name)
+                spell_soup = AonPrdSpellTags(soup, tag.span, self._spell_name)
                 self._tag = spell_soup.create_spell_tag()
 
                 # If spell's tag found, break.

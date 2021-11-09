@@ -1,8 +1,10 @@
+from itertools import groupby
+
 from pathfinder_spell_crawler.soup import logger
 from pathfinder_spell_crawler.soup.soup import Soup
 
 
-class SpellTags(Soup):
+class AonPrdSpellTags(Soup):
     """
     This class creates a Soup's tag containing exclusively a single spell.
     For some reasons, there can be multiple tags inside a single spell tag in AonPRD...
@@ -29,15 +31,15 @@ class SpellTags(Soup):
     def _tags_search(self):
         logger.info(f'Iterate Through Sub Tags: Target spell is "{self._target_spell_name}".')
 
-        for sub_tag in self._tags:
-            logger.debug(sub_tag)
+        for tag in self._tags:
+            logger.debug(tag)
 
-            current_spell_name = sub_tag.h1.text.strip()
+            current_spell_name = tag.h1.text.strip()
             logger.info(f'Iterate Through Sub Tags: "{current_spell_name}" spell found.')
 
             if current_spell_name == self._target_spell_name:
                 logger.info('Iterate Through Sub Tags: Found target spell.')
-                return sub_tag
+                return tag
 
         logger.warning(f'Iterate Through Sub Tags: Target spell {self._target_spell_name} not found.')
 
@@ -46,32 +48,35 @@ class SpellTags(Soup):
     def _create_tags(self) -> None:
         logger.info(f'Create Sub Tags: Has {len(self._reference_tag.contents)} content children, '
                     f'target is {self._target_spell_name}.')
-        current_sub_tag = None
         self._tags = []
 
-        for content in self._reference_tag.contents:
-            logger.debug(content)
+        # All spells start with a H1 element.
 
-            # If H1 tag found or last child (no sibling, attempt to add sub_tag to sub_tags list.
-            if content.name == 'h1':
-                logger.info('Create Sub Tags: H1 Tag found or no more sibling, consider it as a new spell.')
+        # List with all elements minus their respective H1 element.
+        elements_list = [list(group) for k, group in groupby(self._reference_tag, lambda x: x.name == 'h1') if not k]
+        # There can be empty elements, or elements unrelated to spells, remove them.
+        cleaned_up_elements_list = self._clean_up_elements_list(elements_list)
+        # List with all H1 elements.
+        split_element_list = [list(group) for k, group in groupby(self._reference_tag, lambda x: x.name == 'h1') if k]
+        # Merge the two lists elementwise.
+        final_list = [a + b for a, b in zip(split_element_list, cleaned_up_elements_list)]
 
-                self._add_to_tags(current_sub_tag)
+        # Create new tags based on the final list containing all elements related to a spell.
+        for elements in final_list:
+            tag = self._soup.new_tag('span')
+            tag.extend(elements)
 
-                current_sub_tag = self._soup.new_tag('span')
+            self._tags.append(tag)
 
-            if current_sub_tag:
-                logger.debug(f'Create Sub Tags: Add content to Sub Tag.')
-                current_sub_tag.append(content)
-            else:
-                logger.debug(f'Create Sub Tags: Sub tag is not yet set, no content added.')
+        logger.info(f'Create Sub Tags: {len(self._tags)} spells found.')
 
-        logger.info('Create Sub Tags: all element iterate, add any remaining elements as a spell.')
-        self._add_to_tags(current_sub_tag)
+    def _clean_up_elements_list(self, elements_list):
+        cleaned_up_list = []
+        searched_tag = self._soup.new_tag('b')
+        searched_tag.append('Source')
 
-    def _add_to_tags(self, current_sub_tag) -> None:
-        if current_sub_tag and len(current_sub_tag) > 0:
-            logger.info('Add element to Sub Tags: Current Spell Data are not empty, add them to the list of sub tags.')
-            self._tags.append(current_sub_tag)
-        else:
-            logger.info(f'Add element to Sub Tags: Current Spell Data are empty, no content added.')
+        for e in elements_list:
+            if searched_tag in e:
+                cleaned_up_list.append(e)
+
+        return cleaned_up_list

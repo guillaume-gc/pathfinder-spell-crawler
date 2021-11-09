@@ -6,5 +6,5 @@ def get_spell_data(spell_name: str) -> dict:
 
     spell_file_path = f'{ROOT_DIR}/test/samples/spells/{spell_name}.json'
 
-    with open(spell_file_path, 'r') as file:
+    with open(spell_file_path, 'r', encoding='utf-8') as file:
         return json.load(file)
