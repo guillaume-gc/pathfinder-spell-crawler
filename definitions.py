@@ -12,41 +12,56 @@ LOG_DICT = {
         "console": {
             "formatter": 'standard',
             "class": 'logging.StreamHandler'
+        },
+        "file_last_run_default": {
+            "formatter": 'standard',
+            "class": 'logging.FileHandler',
+            "filename": f'{ROOT_DIR}/data/last_run_default.log',
+            "mode": 'w',
+            "encoding": 'utf-8'
+        },
+        "file_last_warning": {
+            "formatter": 'standard',
+            "class": 'logging.FileHandler',
+            "filename": f'{ROOT_DIR}/data/last_run_warning.log',
+            "mode": 'w',
+            "level": "WARNING",
+            "encoding": 'utf-8'
         }
     },
     "loggers": {
         "": {
-            "handlers": ['console'],
+            "handlers": ['console', 'file_last_run_default', 'file_last_warning'],
             "level": 'INFO',
             "propagate": False
         },
         "app": {
-            "handlers": ['console'],
+            "handlers": ['console', 'file_last_run_default', 'file_last_warning'],
             "level": 'INFO',
             "propagate": False
         },
         "crawlers": {
-            "handlers": ['console'],
+            "handlers": ['console', 'file_last_run_default', 'file_last_warning'],
             "level": 'INFO',
             "propagate": False
         },
         "crawlers.controller": {
-            "handlers": ['console'],
+            "handlers": ['console', 'file_last_run_default', 'file_last_warning'],
             "level": 'INFO',
             "propagate": False
         },
         "crawlers.spells.list": {
-            "handlers": ['console'],
+            "handlers": ['console', 'file_last_run_default', 'file_last_warning'],
             "level": 'INFO',
             "propagate": False
         },
         "crawlers.spells.page": {
-            "handlers": ['console'],
+            "handlers": ['console', 'file_last_run_default', 'file_last_warning'],
             "level": 'INFO',
             "propagate": False
         },
         "soup": {
-            "handlers": ['console'],
+            "handlers": ['console', 'file_last_run_default', 'file_last_warning'],
             "level": 'INFO',
             "propagate": False
         }
@@ -58,7 +73,7 @@ WHITELIST = {
         'air',
         'chaotic',
         'cold',
-        'cursed',
+        'curse',
         'darkness',
         'death',
         'disease',

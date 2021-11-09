@@ -5,7 +5,9 @@
     ],
     "school": "Abjuration",
     "sub_school": "",
-    "descriptor": "Force",
+    "descriptors": [
+        "Force"
+    ],
     "casting_time": "1 standard action",
     "levels": [
         "Alchemist 1",
@@ -26,6 +28,8 @@
     ],
     "casting_range": "Personal",
     "target": "You",
+    "area": "",
+    "effect": "",
     "duration": "1 round/level or until discharged",
     "save": "None",
     "spell_resistance": "No",

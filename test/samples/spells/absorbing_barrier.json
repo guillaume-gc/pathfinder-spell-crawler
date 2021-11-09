@@ -1,0 +1,32 @@
+{
+    "name": "Absorbing Barrier",
+    "sources": [
+        "People of the Wastes pg. 28"
+    ],
+    "school": "Abjuration",
+    "sub_school": "",
+    "descriptors": [],
+    "casting_time": "1 standard action",
+    "levels": [
+        "Alchemist 4",
+        "Arcanist 4",
+        "Investigator 4",
+        "Sorcerer 4",
+        "Summoner 4",
+        "Summoner (unchained) 4",
+        "Wizard 4"
+    ],
+    "components": [
+        "V",
+        "S",
+        "F (a jagged scrap of metal)"
+    ],
+    "casting_range": "Medium (100 ft. + 10 ft./level)",
+    "target": "",
+    "area": "40-ft.-radius sphere; see text (s)",
+    "effect": "",
+    "duration": "1 hour/level or until discharged",
+    "save": "None (harmless)",
+    "spell_resistance": "No (harmless)",
+    "description": "You ward all creatures and objects in the area from ranged weapons. The spell’s area of effect is often a sphere, although you can shape it to be smaller than the maximum area or to exclude certain adjacent areas or objects (for example, if you are warding a specific structure, or if you are roughly warding the front lines of a battlefield). This spell’s area is also up to 40 feet in height, so flying creatures benefit as long as they are in this area of effect.\n\n Creatures and objects in the warded area gain damage reduction 20/magic against ranged weapons. Once the spell has prevented a total of 20 points of damage per caster level (maximum 200 points) to creatures and objects in the area, it is discharged."
+}

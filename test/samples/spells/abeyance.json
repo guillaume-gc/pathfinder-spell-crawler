@@ -5,7 +5,7 @@
     ],
     "school": "Abjuration",
     "sub_school": "",
-    "descriptor": "",
+    "descriptors": [],
     "casting_time": "1 minute",
     "levels": [
         "Cleric 2",
@@ -22,6 +22,8 @@
     ],
     "casting_range": "Touch",
     "target": "Creature touched",
+    "area": "",
+    "effect": "",
     "duration": "24 hours",
     "save": "Will negates (harmless)",
     "spell_resistance": "Yes (harmless)",

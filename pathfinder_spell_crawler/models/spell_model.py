@@ -1,5 +1,3 @@
-import json
-
 from pathfinder_spell_crawler.crawlers.spells.page.aonprd_spells_page_crawler import AonprdSpellPageCrawler
 
 
@@ -10,7 +8,7 @@ class SpellModel:
 
         self.school = None
         self.sub_school = None
-        self.descriptor = None
+        self.descriptors = None
 
         self.levels = None
 
@@ -21,6 +19,8 @@ class SpellModel:
         self.casting_range = None
 
         self.target = None
+        self.effect = None
+        self.area = None
         self.duration = None
         self.save = None
         self.spell_resistance = None
@@ -32,11 +32,13 @@ class SpellModel:
         self.source = page_crawler.get_sources()
         self.school = page_crawler.get_school()
         self.sub_school = page_crawler.get_sub_school()
-        self.descriptor = page_crawler.get_descriptor()
+        self.descriptors = page_crawler.get_descriptors()
         self.levels = page_crawler.get_levels()
         self.casting_time = page_crawler.get_casting_time()
         self.components = page_crawler.get_components()
         self.target = page_crawler.get_target()
+        self.effect = page_crawler.get_effect()
+        self.effect = page_crawler.get_area()
         self.duration = page_crawler.get_duration()
         self.save = page_crawler.get_save()
         self.spell_resistance = page_crawler.get_spell_resistance()

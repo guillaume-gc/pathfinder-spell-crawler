@@ -5,7 +5,7 @@
     ],
     "school": "Abjuration",
     "sub_school": "",
-    "descriptor": "",
+    "descriptors": [],
     "casting_time": "1 standard action",
     "levels": [
         "Arcanist 6",
@@ -26,6 +26,8 @@
     ],
     "casting_range": "Touch",
     "target": "One spell effect",
+    "area": "",
+    "effect": "",
     "duration": "Instantaneous plus 1 minute/level (see text)",
     "save": "Will negates (harmless)",
     "spell_resistance": "Yes (harmless)",

@@ -28,6 +28,16 @@ class TestSpellsPageCrawler:
                 "html_path": '/test/samples/fake_page/aonprd_spell_page_absorb_rune_2.html',
                 "url": 'https://aonprd.com/SpellDisplay.aspx?ItemName=Absorb%20Rune%20II',
                 "spell": get_spell_data('absorb_rune_2')
+            },
+            {
+                "html_path": '/test/samples/fake_page/aonprd_spell_page_absorbing_barrier.html',
+                "url": 'https://www.aonprd.com/SpellDisplay.aspx?ItemName=Absorbing%20Barrier',
+                "spell": get_spell_data('absorbing_barrier')
+            },
+            {
+                "html_path": '/test/samples/fake_page/aonprd_spell_page_curse_of_dragonflies.html',
+                "url": 'https://aonprd.com/SpellDisplay.aspx?ItemName=Curse%20of%20Dragonflies',
+                "spell": get_spell_data('curse_of_dragonflies')
             }
         ]
 
@@ -83,12 +93,12 @@ class TestSpellsPageCrawler:
             assert sub_school == page["spell"]["sub_school"]
 
     @staticmethod
-    def test_get_spell_aonprd_page_descriptor(mocker, aonprd_pages):
+    def test_get_spell_aonprd_page_descriptors(mocker, aonprd_pages):
         for page in aonprd_pages:
             crawler = TestSpellsPageCrawler.init_crawler(mocker, page)
 
-            descriptor = crawler.get_descriptor()
-            assert descriptor == page["spell"]["descriptor"]
+            descriptors = crawler.get_descriptors()
+            assert not DeepDiff(descriptors, page["spell"]["descriptors"], ignore_order=True)
 
     @staticmethod
     def test_get_spell_aonprd_page_casting_time(mocker, aonprd_pages):
@@ -129,6 +139,22 @@ class TestSpellsPageCrawler:
 
             target = crawler.get_target()
             assert target == page["spell"]["target"]
+
+    @staticmethod
+    def test_get_spell_aonprd_page_area(mocker, aonprd_pages):
+        for page in aonprd_pages:
+            crawler = TestSpellsPageCrawler.init_crawler(mocker, page)
+
+            target = crawler.get_area()
+            assert target == page["spell"]["area"]
+
+    @staticmethod
+    def test_get_spell_aonprd_page_effect(mocker, aonprd_pages):
+        for page in aonprd_pages:
+            crawler = TestSpellsPageCrawler.init_crawler(mocker, page)
+
+            target = crawler.get_effect()
+            assert target == page["spell"]["effect"]
 
     @staticmethod
     def test_get_spell_aonprd_page_duration(mocker, aonprd_pages):
