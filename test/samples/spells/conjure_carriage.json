@@ -3,32 +3,32 @@
     "sources": [
         "Blood of the Coven pg. 21"
     ],
-    "school": "Conjuration",
-    "sub_school": "Creation",
+    "school": "conjuration",
+    "sub_school": "creation",
     "descriptors": [],
     "casting_time": "1 round",
     "levels": [
-        "Arcanist 3",
-        "Bard 3",
-        "Magus 3",
-        "Skald 3",
-        "Sorcerer 3",
-        "Summoner 3",
-        "Summoner (unchained) 3",
-        "Witch 3",
-        "Wizard 3"
+        "arcanist 3",
+        "bard 3",
+        "bagus 3",
+        "skald 3",
+        "sorcerer 3",
+        "summoner 3",
+        "summoner (unchained) 3",
+        "witch 3",
+        "wizard 3"
     ],
     "components": [
         "V",
         "S",
         "M (a gourd)"
     ],
-    "casting_range": "Close (25 ft. + 5 ft./2 levels)",
+    "casting_range": "close (25 ft. + 5 ft./2 levels)",
     "target": "",
     "area": "",
-    "effect ": "One quasi-real carriage, horses, and driver",
+    "effect ": "one quasi-real carriage, horses, and driver",
     "duration": "1 hour/level (d)",
-    "save": "None",
-    "spell_resistance": "No",
+    "save": "none",
+    "spell_resistance": "no",
     "description": "You create a fine wooden carriage with whatever cosmetic embellishments you desire. It is well constructed, although not exceptionally ostentatious. The carriage can carry up to six Medium or Small passengers. When conjured, the carriage comes with a team of two quasi-real light horses, which are already harnessed to the carriage. At your command, an invisible coachman similar to an unseen servant can assume the role of driver and direct the carriage, although it can’t perform any complex or dangerous driving, and fails any checks made to drive the carriage in such conditions. At the end of the spell’s duration, the carriage, horses, and coachman disappear into nothingness, depositing everything on or in it on the ground in its space."
 }

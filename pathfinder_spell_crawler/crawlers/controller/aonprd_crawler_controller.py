@@ -60,9 +60,13 @@ class AonprdCrawlerController(CrawlerController):
 
     @staticmethod
     def _get_spell_model_from_page_crawler(page_crawler: AonprdSpellPageCrawler) -> SpellModel:
-        page_crawler.update_spell_tag()
         spell_model = SpellModel()
-
-        spell_model.set_data_from_page_crawler(page_crawler)
+        try:
+            page_crawler.update_spell_tag()
+            spell_model.set_data_from_page_crawler(page_crawler)
+        except Exception as ex:
+            logger.exception(f'Get Spell Model from Page Crawler: Error {type(ex).__name__} -> {ex}. '
+                             f'Create Empty spell.')
+            spell_model.name = page_crawler.spell_name
 
         return spell_model

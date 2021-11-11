@@ -70,13 +70,21 @@ class AonPrdSpellTags(Soup):
 
         logger.info(f'Create Sub Tags: {len(self._tags)} spells found.')
 
-    def _clean_up_elements_list(self, elements_list):
+    @staticmethod
+    def _clean_up_elements_list(elements_list):
         cleaned_up_list = []
-        searched_tag = self._soup.new_tag('b')
-        searched_tag.append('Source')
 
         for e in elements_list:
-            if searched_tag in e:
+            if AonPrdSpellTags._clean_up_elements_list_checker(e, 'Source'):
                 cleaned_up_list.append(e)
 
         return cleaned_up_list
+
+    @staticmethod
+    def _clean_up_elements_list_checker(e, value):
+        try:
+            return any(x for x in e
+                       if hasattr(x, 'contents') and len(x.contents) > 0 and x.contents[0].strip() == value)
+        except (AttributeError, IndexError) as ex:
+            logger.debug(f'Clean Up Element List Checker: {type(ex)} -> {ex}')
+            return False

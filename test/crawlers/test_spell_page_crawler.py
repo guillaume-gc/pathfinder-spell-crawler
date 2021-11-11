@@ -38,6 +38,11 @@ class TestSpellsPageCrawler:
                 "html_path": '/test/samples/fake_page/aonprd_spell_page_curse_of_dragonflies.html',
                 "url": 'https://aonprd.com/SpellDisplay.aspx?ItemName=Curse%20of%20Dragonflies',
                 "spell": get_spell_data('curse_of_dragonflies')
+            },
+            {
+                "html_path": '/test/samples/fake_page/aonprd_spell_page_curse_terrain.html',
+                "url": 'https://www.aonprd.com/SpellDisplay.aspx?ItemName=Curse%20Terrain',
+                "spell": get_spell_data('curse_terrain')
             }
         ]
 

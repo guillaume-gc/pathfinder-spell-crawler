@@ -5,7 +5,8 @@ from definitions import ROOT_DIR
 from pathfinder_spell_crawler.app import logger
 from pathfinder_spell_crawler.crawlers.controller.aonprd_crawler_controller import AonprdCrawlerController
 
-if __name__ == '__main__':
+
+def main():
     logger.info(f'Main: Begin.')
 
     crawler_controller = AonprdCrawlerController('https://aonprd.com/Spells.aspx?Class=All')
@@ -23,3 +24,7 @@ if __name__ == '__main__':
         file.write(json.dumps(spell_models_dict))
 
     logger.info(f'Main: File {file_path} created.')
+
+
+if __name__ == '__main__':
+    main()

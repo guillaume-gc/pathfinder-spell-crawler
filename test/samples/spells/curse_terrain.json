@@ -1,0 +1,38 @@
+{
+    "name": "Curse Terrain",
+    "sources": [
+        "Horror Adventures pg. 114"
+    ],
+    "school": "necromancy",
+    "sub_school": "",
+    "descriptors": [
+        "curse",
+        "evil"
+    ],
+    "casting_time": "10 minutes",
+    "levels": [
+        "arcanist 4",
+        "cleric 4",
+        "druid 4",
+        "hunter 4",
+        "oracle 4",
+        "shaman 4",
+        "sorcerer 4",
+        "warpriest 4",
+        "witch 4",
+        "wizard 4"
+    ],
+    "components": [
+        "V",
+        "S",
+        "M (the heart of a creature that dwelled in the area and powdered onyx worth 700 gp)"
+    ],
+    "casting_range": "touch",
+    "target": "",
+    "area": "1-mile radius emanting from the touched point",
+    "effect": "As per minor perilous demesne (see below), except this can involve up to four hazards, each of CR 6 or less, imperil creatures in the area. If any hazards are encountered together, the encounter’s effective CR from hazards must be no more than 7 (for instance, two CR 5 hazards could be encountered together).",
+    "duration": "1 day (D)",
+    "save": "none",
+    "spell_resistance": "no",
+    "description": "By touching the ground, you curse the land with four unnatural hazards. This functions as lesser curse terrain, but with the effects of the major perilous demesne curse (see page 145)."
+}

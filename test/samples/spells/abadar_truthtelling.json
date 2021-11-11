@@ -5,30 +5,30 @@
         "Pathfinder #8: Seven Days to the Grave pg. 71",
         "Gods and Magic pg. 5"
     ],
-    "school": "Enchantment",
-    "sub_school": "Compulsion",
+    "school": "enchantment",
+    "sub_school": "compulsion",
     "descriptors": [
-        "Mind-affecting"
+        "mind-affecting"
     ],
     "casting_time": "1 standard action",
     "levels": [
-        "Cleric 1",
-        "Inquisitor 1",
-        "Oracle 1",
-        "Paladin 1",
-        "Warpriest 1 (abadar)"
+        "cleric 1",
+        "inquisitor 1",
+        "oracle 1",
+        "paladin 1",
+        "warpriest 1 (Abadar)"
     ],
     "components": [
         "V",
         "S",
         "DF"
     ],
-    "casting_range": "Touch",
-    "target": "Creature touched",
+    "casting_range": "touch",
+    "target": "creature touched",
     "area": "",
     "effect": "",
     "duration": "1 min./level",
     "save": "Will negates",
-    "spell_resistance": "Yes",
+    "spell_resistance": "yes",
     "description": "This spell functions identically to the spell zone of truth, except as noted above. The target momentarily takes on the semblance of a being of perfect order, like an archon or inevitable, so that all who can see the target know it is affected by the spell. This divine guise flickers over the target for only an instant and does not allow it to pass as a member of a different race."
 }
