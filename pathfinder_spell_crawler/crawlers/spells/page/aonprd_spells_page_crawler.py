@@ -125,6 +125,9 @@ class AonprdSpellPageCrawler(Crawler):
                 logger.debug(f'{self.spell_name} Get Sources: Minor Error {type(ex).__name__} -> {ex}.')
                 logger.warning(f'{self.spell_name} Get Sources: No source found.')
 
+            if sources is None:
+                sources = []
+
             logger.info(f'{self.spell_name} Get Sources: Sources are "{sources}".')
 
             return sources
@@ -150,6 +153,9 @@ class AonprdSpellPageCrawler(Crawler):
             except (IndexError, AttributeError) as ex:
                 logger.debug(f'{self.spell_name} Get School: Warning {type(ex).__name__} -> {ex}.')
                 logger.warning(f'{self.spell_name} Get School: No school found.')
+                school = ''
+
+            if school is None:
                 school = ''
 
             logger.info(f'{self.spell_name} Get School: School is "{school}".')
@@ -188,6 +194,9 @@ class AonprdSpellPageCrawler(Crawler):
                 logger.debug(f'{self.spell_name} Get Sub School: '
                              f'Optional value not found {type(ex).__name__} -> {ex}.')
 
+            if sub_school is None:
+                sub_school = ''
+
             logger.info(f'{self.spell_name} Get Sub School: Sub School is "{sub_school}".')
 
             return sub_school
@@ -219,6 +228,9 @@ class AonprdSpellPageCrawler(Crawler):
             except (IndexError, AttributeError) as ex:
                 logger.debug(f'{self.spell_name} Get Descriptors: '
                              f'Optional value not found {type(ex).__name__} -> {ex}.')
+
+            if descriptors is None:
+                descriptors = []
 
             logger.info(f'{self.spell_name} Get Descriptors: Descriptors are "{descriptors}".')
 
@@ -265,6 +277,9 @@ class AonprdSpellPageCrawler(Crawler):
                 logger.warning(f'{self.spell_name} Get Levels: No level found.')
                 levels = []
 
+            if levels is None:
+                levels = []
+
             logger.info(f'{self.spell_name} Get Levels: Levels are "{levels}".')
 
             return levels
@@ -286,11 +301,13 @@ class AonprdSpellPageCrawler(Crawler):
 
                 siblings = casting_time_title.find_next_siblings(string=re.compile("."))
 
-                casting_time = siblings[0]
-                casting_time = casting_time.strip()
+                casting_time = siblings[0].strip()
             except (IndexError, AttributeError) as ex:
                 logger.debug(f'{self.spell_name} Get Casting Time: Warning {type(ex).__name__} -> {ex}.')
                 logger.warning(f'{self.spell_name} Get Casting Time: No casting time found.')
+                casting_time = ''
+
+            if casting_time is None:
                 casting_time = ''
 
             logger.info(f'{self.spell_name} Get Casting Time: Casting time is "{casting_time}".')
@@ -322,6 +339,9 @@ class AonprdSpellPageCrawler(Crawler):
                 logger.warning(f'{self.spell_name} Get Components: No components found.')
                 components = []
 
+            if components is None:
+                components = []
+
             logger.info(f'{self.spell_name} Get Components: Components are "{components}".')
 
             return components
@@ -342,11 +362,13 @@ class AonprdSpellPageCrawler(Crawler):
 
                 siblings = casting_range_title.find_next_siblings(string=re.compile("."))
 
-                casting_range = siblings[0]
-                casting_range = casting_range.strip()
+                casting_range = siblings[0].strip()
             except (IndexError, AttributeError) as ex:
                 logger.debug(f'{self.spell_name} Get Casting Range: Warning {type(ex).__name__} -> {ex}.')
                 logger.warning(f'{self.spell_name} Get Casting Range: No casting range found.')
+                casting_range = ''
+
+            if casting_range is None:
                 casting_range = ''
 
             logger.info(f'{self.spell_name} Get Casting Range: Casting rage is "{casting_range}".')
@@ -365,7 +387,7 @@ class AonprdSpellPageCrawler(Crawler):
 
         try:
             target_possible_fields = ['Target', 'Targets']
-            target = ''
+            target = None
             for field in target_possible_fields:
                 try:
                     target_title = self._tag.find('b', text=field)
@@ -381,6 +403,9 @@ class AonprdSpellPageCrawler(Crawler):
                 except (AttributeError, IndexError) as ex:
                     logger.debug(f'{self.spell_name} Get Target: Warning for {field} {type(ex).__name__} -> {ex}. '
                                  f'Attempt another field.')
+
+            if target is None:
+                target = ''
 
             logger.info(f'{self.spell_name} Get Target: Target is "{target}".')
 
@@ -402,10 +427,12 @@ class AonprdSpellPageCrawler(Crawler):
 
                 siblings = area_title.find_next_siblings(string=re.compile("."))
 
-                area = siblings[0]
-                area = area.strip()
+                area = siblings[0].strip()
             except (IndexError, AttributeError) as ex:
                 logger.debug(f'{self.spell_name} Get Area: Optional Value not found {type(ex).__name__} -> {ex}.')
+                area = ''
+
+            if area is None:
                 area = ''
 
             logger.info(f'{self.spell_name} Get Area: Area is "{area}".')
@@ -433,7 +460,10 @@ class AonprdSpellPageCrawler(Crawler):
                 logger.debug(f'{self.spell_name} Get Effect: Optional Value not found {type(ex).__name__} -> {ex}.')
                 effect = ''
 
-            logger.info(f'Get Effect: Effect is "{effect}".')
+            if effect is None:
+                effect = ''
+
+            logger.info(f'{self.spell_name} Get Effect: Effect is "{effect}".')
 
             return effect
         except Exception as ex:
@@ -453,12 +483,14 @@ class AonprdSpellPageCrawler(Crawler):
 
                 siblings = duration_title.find_next_siblings(string=re.compile("."))
 
-                duration = siblings[0]
-                duration = duration.strip()
+                duration = siblings[0].strip()
 
             except (IndexError, AttributeError) as ex:
                 logger.debug(f'{self.spell_name} Get Duration: Warning {type(ex).__name__} -> {ex}.')
                 logger.warning(f'{self.spell_name} Get Duration: No duration found.')
+                duration = ''
+
+            if duration is None:
                 duration = ''
 
             logger.info(f'Get Duration: Duration is "{duration}".')
@@ -488,6 +520,9 @@ class AonprdSpellPageCrawler(Crawler):
                              f'Optional Value not found {type(ex).__name__} -> {ex}.')
                 save = 'none'
 
+            if save is None:
+                save = 'none'
+
             logger.info(f'{self.spell_name} Get Save: Save is "{save}".')
 
             return save
@@ -513,6 +548,9 @@ class AonprdSpellPageCrawler(Crawler):
             except (AttributeError, IndexError) as ex:
                 logger.debug(f'{self.spell_name} Get Spell Resistance: '
                              f'Optional Value not found {type(ex).__name__} -> {ex}.')
+                spell_resistance = 'no'
+
+            if spell_resistance is None:
                 spell_resistance = 'no'
 
             logger.info(f'{self.spell_name} Get Spell Resistance: Spell Resistance is "{spell_resistance}".')
@@ -555,6 +593,9 @@ class AonprdSpellPageCrawler(Crawler):
             except (IndexError, AttributeError) as ex:
                 logger.debug(f'{self.spell_name} Get Description: Warning {type(ex).__name__} -> {ex}.')
                 logger.warning(f'{self.spell_name} Get Description: No description found.')
+                description = ''
+
+            if description is None:
                 description = ''
 
             logger.info(f'{self.spell_name} Get Description: Value is "{description}".')

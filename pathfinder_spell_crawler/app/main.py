@@ -9,6 +9,13 @@ from pathfinder_spell_crawler.crawlers.controller.aonprd_crawler_controller impo
 def main():
     logger.info(f'Main: Begin.')
 
+    crawling_to_json()
+
+    logger.info(f'Main: End.')
+
+
+def crawling_to_json():
+    logger.info(f'Main: Being operation Crawling to JSON.')
     crawler_controller = AonprdCrawlerController('https://aonprd.com/Spells.aspx?Class=All')
 
     crawler_controller.create_all_page_crawlers()
@@ -20,7 +27,7 @@ def main():
 
     current_timestamp = int(time())
     file_path = f'{ROOT_DIR}/data/spells-{current_timestamp}.json'
-    with open(file_path, 'w') as file:
+    with open(file_path, 'w', encoding='utf-8') as file:
         file.write(json.dumps(spell_models_dict))
 
     logger.info(f'Main: File {file_path} created.')
